@@ -33,6 +33,8 @@ SPDX-License-Identifier: MIT
 #include "llvmVCWrapper/IR/Function.h"
 #include "llvmVCWrapper/IR/Instructions.h"
 
+#include <iostream>
+
 using namespace llvm;
 using namespace genx;
 
@@ -571,6 +573,8 @@ static inline void FixAttributes(Function &F, Attribute::AttrKind Attr,
 #endif
 
 bool GenXSPIRVWriterAdaptorImpl::run(Module &M) {
+  std::cout << "Before GenXSPIRVWriterAdaptorImpl" << std::endl;
+  M.dump();
   auto TargetTriple = StringRef(M.getTargetTriple());
   if (TargetTriple.startswith("genx")) {
     if (TargetTriple.startswith("genx32"))
@@ -593,12 +597,21 @@ bool GenXSPIRVWriterAdaptorImpl::run(Module &M) {
   for (auto &&F : M)
     runOnFunction(F);
 
+  std::cout << "After iterating over functions in GenXSPIRVWriterAdaptorImpl" << std::endl;
+  M.dump();
+
   // Old metadata is not needed anymore at this point.
   if (auto *MD = M.getNamedMetadata(FunctionMD::GenXKernels))
     M.eraseNamedMetadata(MD);
 
+  std::cout << "After erasing metadata in GenXSPIRVWriterAdaptorImpl" << std::endl;
+  M.dump();
+
   if (RewriteTypes)
     rewriteKernelsTypes(M);
+
+  std::cout << "After rewriting kernel types in GenXSPIRVWriterAdaptorImpl" << std::endl;
+  M.dump();
 
   if (RewriteSingleElementVectors)
     rewriteSingleElementVectors(M);
@@ -614,7 +627,8 @@ bool GenXSPIRVWriterAdaptorImpl::run(Module &M) {
                   llvm::MemoryEffects::writeOnly());
   }
 #endif
-
+  std::cout << "After GenXSPIRVWriterAdaptorImpl" << std::endl;
+  M.dump();
   return true;
 }
 
