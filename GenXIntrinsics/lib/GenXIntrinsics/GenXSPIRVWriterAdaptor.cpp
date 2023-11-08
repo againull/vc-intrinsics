@@ -543,6 +543,8 @@ static void rewriteKernelArguments(Function &F) {
     rewriteArgumentUses(InsPt, std::get<0>(ArgPair), std::get<1>(ArgPair));
 
   F.replaceAllUsesWith(NewF);
+  F.getType()->dump();
+  NewF.getType()->dump();
   F.eraseFromParent();
 }
 
