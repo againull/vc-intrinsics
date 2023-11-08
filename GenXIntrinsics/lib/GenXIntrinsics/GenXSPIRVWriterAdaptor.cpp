@@ -544,7 +544,7 @@ static void rewriteKernelArguments(Function &F) {
 
   F.replaceAllUsesWith(NewF);
   F.getType()->dump();
-  NewF.getType()->dump();
+  NewF->getType()->dump();
   F.eraseFromParent();
 }
 
