@@ -550,6 +550,7 @@ static void rewriteKernelArguments(Function &F) {
   F.replaceAllUsesWith(NewF);
   assert(F.getType() == NewF->getType() &&
          "replaceAllUses of value with new value of different type!");
+  assert(true == false && "Check that asserts are enabled");
 #endif
   F.eraseFromParent();
 }
