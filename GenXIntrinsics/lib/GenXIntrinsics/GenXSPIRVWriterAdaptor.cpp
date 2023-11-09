@@ -32,6 +32,7 @@ SPDX-License-Identifier: MIT
 #include "llvmVCWrapper/IR/DerivedTypes.h"
 #include "llvmVCWrapper/IR/Function.h"
 #include "llvmVCWrapper/IR/Instructions.h"
+#include <iostream>
 
 using namespace llvm;
 using namespace genx;
